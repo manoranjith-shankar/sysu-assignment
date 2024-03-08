@@ -14,6 +14,7 @@ SwiperCore.use([EffectCoverflow]);
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import toast from 'react-hot-toast'
 
 const appSetting = {
   databaseURL: "https://sysu-assignment-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -160,29 +161,34 @@ export default function Story() {
   }
 
   function handleSubmit(e){
-    const random = ((Math.random() * 4))
-    e.preventDefault()
-    const Data ={
-      subject: subject,
-      description: describe,
-      category: selectedCategory,
-      timeStamp: getCurrentDateTime(),
-      id: random 
-    }
-
-    if(subject && describe && selectedCategory){
-      push(ref(database, `List/${selectedCategory}`), Data)
-
-      if(selectedCategory){
-        if(newCat && !newCat.some((item) => (item.toLowerCase() === selectedCategory.toLowerCase()))){
-          push(cat , selectedCategory)
-        }
-        clear()
+    toast.loading('publishing your story...', {
+      duration: 3000,
+    })
+      const random = ((Math.random() * 4))
+      e.preventDefault()
+      const Data ={
+        subject: subject,
+        description: describe,
+        category: selectedCategory,
+        timeStamp: getCurrentDateTime(),
+        id: random 
       }
-    }
+
+      setTimeout(() => {
+        if(subject && describe && selectedCategory){
+          push(ref(database, `List/${selectedCategory}`), Data)
+    
+          if(selectedCategory){
+            if(newCat && !newCat.some((item) => (item.toLowerCase() === selectedCategory.toLowerCase()))){
+              push(cat , selectedCategory)
+            }
+            clear()
+          }
+        }
+        toast.success('Story published successfully')
+      }, 4000)
 
     // setContent(false)
-    
   }
 
   function handleShow(){

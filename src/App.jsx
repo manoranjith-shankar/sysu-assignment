@@ -9,7 +9,10 @@ function App(){
   return (
     <div>
       <MyRouts />
-      <Toaster />
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
     </div>
   )
 }
