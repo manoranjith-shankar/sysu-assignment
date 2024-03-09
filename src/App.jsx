@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 
 function App(){
   return (
-    <div>
+    <div className="box-border">
       <MyRouts />
       <Toaster
         position="bottom-right"

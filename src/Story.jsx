@@ -186,7 +186,7 @@ export default function Story() {
           }
         }
         toast.success('Story published successfully')
-      }, 4000)
+      }, 3200)
 
     // setContent(false)
   }
@@ -501,7 +501,7 @@ export default function Story() {
 
               <div className="description">
                   <label htmlFor="describe"><h3>Description</h3></label>
-                  <textarea 
+                  <textarea
                     value={describe} 
                     name='description'
                     id='describe'
@@ -564,9 +564,9 @@ export default function Story() {
         <section className='section-2'>
 
           <div className='section-2-head'>
-            <h1>Read their stories</h1>
-
-            <div className='looking'>
+            <h1>Read stories on <p className='text-5xl ml-[20.5rem] mt-[-53px] mb-7'>{search}</p></h1>
+          </div>
+          <div className='looking'>
               <div className='choose'>
                 <label htmlFor='choose'><h3>What are you looking for?</h3></label>
                 <input
@@ -575,10 +575,9 @@ export default function Story() {
                     placeholder="Browse a Category"
                     value={search}
                     onClick={handleClick}
-                    onChange={handleSearch2} required/>
+                    onChange={handleSearch2}/>
                 <BiChevronDown className='btn-2' onClick={handleClick2}/>
               </div>
-              
             
               {(show4) ? (
                 <ul className='search-list search-list-2'>
@@ -607,16 +606,15 @@ export default function Story() {
                     ))}
                     </ul>
                 )}
-            </div>          
-          </div>
+            </div>
 
           <div className='filter'>
-            <h1 className='total-story'><span>{stories === 1 ? `${stories} story` : stories === 0 ? `0 story` : `${stories} stories`}</span> for you to read</h1>
+            <h1 className='total-story'><span>{stories === 1 ? `${stories} story` : stories === 0 ? `No Stories` : `${stories} stories`}</span> for you to read</h1>
             <div className='flex-filter'>
               <h2 className='filter-heading'>Sort: 
                 <span onClick={handleflip}>
                   {flipped ? `Newest to Oldest` : `Oldest to Newest`}
-                  </span>
+                </span>
               </h2>
               <CgArrowsExchangeAltV  className='filterarrow' onClick={handleflip}/>
             </div>

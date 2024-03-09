@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 function Test(){
   return (
-    <div className="">
+    <div>
         <p className="text-center text-xl font-extralight">
             test route
         </p>
