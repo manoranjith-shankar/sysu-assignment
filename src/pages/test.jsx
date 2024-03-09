@@ -1,14 +1,22 @@
-import toast from 'react-hot-toast';
+import { useState } from 'react';
 
-function Test(){
+const StarComp = () => {
+  const [isStarred, setIsStarred] = useState(false);
+
+  const handleStarClick = () => {
+    setIsStarred(!isStarred);
+  };
+
   return (
     <div>
-        <p className="text-center text-xl font-extralight">
-            test route
-        </p>
-        <button onClick={() => toast('This is a toast')}>Render my toast</button>
+      <button
+        onClick={handleStarClick}
+        className={`text-xl ${isStarred ? 'text-yellow-500' : 'text-gray-500'}`}
+      >
+        &#9733;
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Test
+export default StarComp;

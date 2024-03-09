@@ -60,7 +60,11 @@ export default function Story() {
   const [reveal, setReveal] = useState({})
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [isStarred, setIsStarred] = useState(false);
 
+  const handleStarClick = () => {
+    setIsStarred(!isStarred);
+  };
 
   useEffect(() => {
     onValue(cat, function(snapshot){
@@ -611,6 +615,14 @@ export default function Story() {
           <div className='filter'>
             <h1 className='total-story'><span>{stories === 1 ? `${stories} story` : stories === 0 ? `No Stories` : `${stories} stories`}</span> for you to read</h1>
             <div className='flex-filter'>
+            <div className='ml-10'>
+              <button
+                onClick={handleStarClick}
+                className={`text-xl ${isStarred ? 'text-yellow-500' : 'text-gray-500'}`}
+              >
+                &#9733;
+              </button>
+            </div>
               <h2 className='filter-heading'>Sort: 
                 <span onClick={handleflip}>
                   {flipped ? `Newest to Oldest` : `Oldest to Newest`}
