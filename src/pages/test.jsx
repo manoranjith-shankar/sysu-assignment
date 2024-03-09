@@ -1,22 +1,9 @@
-import { useState } from 'react';
+import React from 'react'
 
-const StarComp = () => {
-  const [isStarred, setIsStarred] = useState(false);
-
-  const handleStarClick = () => {
-    setIsStarred(!isStarred);
-  };
-
+const Test = () => {
   return (
-    <div>
-      <button
-        onClick={handleStarClick}
-        className={`text-xl ${isStarred ? 'text-yellow-500' : 'text-gray-500'}`}
-      >
-        &#9733;
-      </button>
-    </div>
-  );
-};
+    <div className='text-center text-3xl'>Test</div>
+  )
+}
 
-export default StarComp;
+export default Test
