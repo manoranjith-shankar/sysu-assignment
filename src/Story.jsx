@@ -37,7 +37,7 @@ export default function Story() {
   const [searchResults, setSearchResults] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('FIGMA')
   const [searchResults2, setSearchResults2] = useState([])
 
   const [categories, setCategories] = useState([])
@@ -61,10 +61,30 @@ export default function Story() {
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [isStarred, setIsStarred] = useState(false);
+  const [starredCategories, setStarredCategories] = useState([]);
 
   const handleStarClick = () => {
+    if (isStarred) {
+      // If already starred, remove it
+      const updatedStarredCategories = starredCategories.filter(category => category !== selectedValue);
+      setStarredCategories(updatedStarredCategories);
+    } else {
+      // If not starred, add it
+      setStarredCategories([...starredCategories, selectedValue]);
+    }
     setIsStarred(!isStarred);
+  
+    // Store starred categories in local storage
+    localStorage.setItem('starredCategories', JSON.stringify(starredCategories));
   };
+
+  useEffect(() => {
+    // Fetch starred categories from local storage
+    const storedStarredCategories = JSON.parse(localStorage.getItem('starredCategories'));
+    if (storedStarredCategories) {
+      setStarredCategories(storedStarredCategories);
+    }
+  }, []);
 
   useEffect(() => {
     onValue(cat, function(snapshot){
@@ -500,7 +520,9 @@ export default function Story() {
                       type='text'
                       placeholder='write the topic for your story ' 
                       value={subject}
-                      onChange={(e) => handleValue(e)} required/>
+                      onChange={(e) => handleValue(e)}
+                      required
+                      />
               </div>
 
               <div className="description">
@@ -510,7 +532,9 @@ export default function Story() {
                     name='description'
                     id='describe'
                     placeholder='write what your story is about here'
-                    onChange={(e) => handleValue(e)} required/>
+                    onChange={(e) => handleValue(e)} 
+                    required
+                    />
               </div>
 
               <div className='selectCategory'>
@@ -579,7 +603,7 @@ export default function Story() {
                     placeholder="Browse a Category"
                     value={search}
                     onClick={handleClick}
-                    onChange={handleSearch2}/>
+                    />
                 <BiChevronDown className='btn-2' onClick={handleClick2}/>
               </div>
             
@@ -716,7 +740,7 @@ export default function Story() {
                 </Swiper>
             </section>
           </div>)}
-        </section>       
+        </section>
       </div>
     </div>
   )
