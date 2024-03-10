@@ -1,16 +1,16 @@
 
 import Navbar from "../Navbar"
 import Popular from "../Popular"
-import Story from "../Story"
-import MyRouts from "../routes/routes"
+import StoriesOfPopCategory from "../StoriesOfPopCategory"
 
-function Home(){
+function PopularCategories({ category }){
   return (
     <div className="header">
       <Navbar />
-        <Popular />
+      <Popular />
+      <StoriesOfPopCategory />
     </div>
   )
 }
 
-export default Home
+export default PopularCategories
