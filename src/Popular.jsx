@@ -26,12 +26,12 @@ export default function Popular({ onChildValue }) {
       <div className='list'>
         <ul className='list-items'>
           <ListItem value="Home" />
-          <ListItem value="ENGINEERING DAYS" />
           <ListItem value="BANGALORE STORIES" />
+          <ListItem value="ENGINEERING DAYS" />
           <ListItem value="GOA DIARIES" />
-          <ListItem value="NITK STUFFS" />
           <ListItem value="IIM THINGS" />
           <ListItem value="IIMB FACTS" />
+          <ListItem value="NITK STUFFS" />
           <ListItem value="SHAYARI" />
           <ListItem value="VIKAS MEENA" />
         </ul>

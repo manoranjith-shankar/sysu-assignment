@@ -80,7 +80,21 @@ const StoriesOfPopCategory = () => {
 
   return (
     <div className="container mx-auto mt-8">
-      <div className="flex items-center justify-between mb-4">
+      <div className='flex justify-between mt-0'>
+        <h3 className="mr-[40px]">Favourite Categories</h3>
+        <div className='list'>
+          <ul className='list-items'>
+            {starredCategories.length > 0 ? (
+              starredCategories.map((category) => (
+                <li key={category}>{category}</li>
+              ))
+            ) : (
+              <li>No starred categories</li>
+            )}
+          </ul>
+        </div>
+      </div>
+      <div className="flex items-center justify-between mb-4 mt-5">
         <h2 className="text-2xl font-semibold">Stories in category: {category}</h2>
         <div>
           <button className="text-blue-500 mt-5 mr-3" onClick={handleShareButtonClick}>
@@ -94,23 +108,12 @@ const StoriesOfPopCategory = () => {
           </button>
         </div>
       </div>
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Starred Categories</h3>
-        <div className='list'>
-        <ul className='list-items'>
-          {starredCategories.map((category) => (
-                <li key={category}>{category}</li>
-                ))}
-        </ul>
-        </div>
-      </div>
       {error ? (
         <p className="text-red-500">{error}</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {stories.map((story) => (
             <div key={story.id} className="bg-white rounded-lg shadow-md p-4">
-              <p className="text-gray-500">Category: {story.category}</p>
               <h3 className="text-xl font-semibold mb-2">{story.subject}</h3>
               <p className="text-gray-700 mb-2 overflow-x-auto">{story.description}</p>
             </div>
@@ -118,7 +121,7 @@ const StoriesOfPopCategory = () => {
         </div>
       )}
     </div>
-  );
+  );  
 };
 
 export default StoriesOfPopCategory;
