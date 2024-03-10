@@ -184,36 +184,39 @@ export default function Story() {
     setSelectedCategory('')
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     toast.loading('publishing your story...', {
       duration: 3000,
-    })
-      const random = ((Math.random() * 4))
-      e.preventDefault()
-      const Data ={
-        subject: subject,
-        description: describe,
-        category: selectedCategory,
-        timeStamp: getCurrentDateTime(),
-        id: random 
-      }
-
-      setTimeout(() => {
-        if(subject && describe && selectedCategory){
-          push(ref(database, `List/${selectedCategory}`), Data)
-    
-          if(selectedCategory){
-            if(newCat && !newCat.some((item) => (item.toLowerCase() === selectedCategory.toLowerCase()))){
-              push(cat , selectedCategory)
-            }
-            clear()
-          }
+    });
+    const random = Math.random() * 4;
+    e.preventDefault();
+    if (!subject || !describe) {
+      toast.error('Please provide a subject and description for your story');
+      return;
+    }
+    const Data = {
+      subject: subject,
+      description: describe,
+      category: selectedCategory,
+      timeStamp: getCurrentDateTime(),
+      id: random,
+    };
+  
+    setTimeout(() => {
+      if (selectedCategory) {
+        if (newCat && !newCat.some((item) => item.toLowerCase() === selectedCategory.toLowerCase())) {
+          push(cat, selectedCategory);
         }
-        toast.success('Story published successfully')
-      }, 3200)
-
+        clear();
+      }
+      toast.success('Story published successfully');
+    }, 3200);
+  
+    if (subject && describe && selectedCategory) {
+      push(ref(database, `List/${selectedCategory}`), Data);
+    }
     // setContent(false)
-  }
+  }  
 
   function handleShow(){
     setShow(prev => !prev)

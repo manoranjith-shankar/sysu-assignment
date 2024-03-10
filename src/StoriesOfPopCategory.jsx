@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ref, onValue, getDatabase } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { ref, onValue, getDatabase, push, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { useParams } from 'react-router-dom';
 import { FiShare } from "react-icons/fi";
@@ -14,10 +14,13 @@ const database = getDatabase(app);
 const StoriesOfPopCategory = () => {
   const [stories, setStories] = useState([]);
   const [error, setError] = useState(null);
+  const [isStarred, setIsStarred] = useState(false);
+  const [starredCategories, setStarredCategories] = useState([]);
   const { category } = useParams();
 
   useEffect(() => {
     const storiesRef = ref(database, `List/${category}`);
+    const starredCategoriesRef = ref(database, 'StarredCategories');
 
     const fetchStories = () => {
       onValue(storiesRef, (snapshot) => {
@@ -28,7 +31,7 @@ const StoriesOfPopCategory = () => {
             ...value
           }));
           setStories(storiesArray);
-          setError(null); // Reset error if stories are found
+          setError(null);
         } else {
           setStories([]);
           setError('No stories found');
@@ -37,26 +40,69 @@ const StoriesOfPopCategory = () => {
         console.error("Error fetching stories:", error);
         setError('Error fetching stories');
       });
+
+      // Fetch starred categories
+       onValue(starredCategoriesRef, (snapshot) => {
+        const starredCategoriesData = snapshot.val();
+        if (starredCategoriesData) {
+          const categories = Object.entries(starredCategoriesData).map(([key, value]) => value);
+          setStarredCategories(categories);
+          setIsStarred(categories.includes(category));
+        }
+      });
     };
 
     fetchStories();
-  }, [category]);
+
+  }, [category, database]);
+
+  const handleStarClick = () => {
+    setIsStarred(!isStarred);
+
+    if (!isStarred) {
+      // If not starred, add it to the list
+      push(ref(database, "StarredCategories"), category);
+      setIsStarred(true);
+    } else {
+      // If starred, remove it from the list
+      remove(ref(database,"StarredCategories"), category);
+      setIsStarred(false);
+    }
+  };
 
   // Function to handle the share button click event
   const handleShareButtonClick = () => {
     // Open a pop-up with the current URL
     navigator.clipboard.writeText(window.location.href)
-    .then(() => alert('URL copied to clipboard'))
-    .catch((error) => console.error('Error copying URL to clipboard:', error));
+      .then(() => alert('URL copied to clipboard'))
+      .catch((error) => console.error('Error copying URL to clipboard:', error));
   };
 
   return (
     <div className="container mx-auto mt-8">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold">Stories in category: {category}</h2>
-        <button className="text-blue-500 mt-5" onClick={handleShareButtonClick}>
-          <FiShare />
-        </button>
+        <div>
+          <button className="text-blue-500 mt-5 mr-3" onClick={handleShareButtonClick}>
+            <FiShare />
+          </button>
+          <button
+            onClick={handleStarClick}
+            className={`text-xl ${isStarred ? 'text-yellow-500' : 'text-gray-500'}`}
+          >
+            &#9733;
+          </button>
+        </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Starred Categories</h3>
+        <div className='list'>
+        <ul className='list-items'>
+          {starredCategories.map((category) => (
+                <li key={category}>{category}</li>
+                ))}
+        </ul>
+        </div>
       </div>
       {error ? (
         <p className="text-red-500">{error}</p>
