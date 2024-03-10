@@ -3,7 +3,7 @@ import Navbar from "../Navbar"
 import Popular from "../Popular"
 import StoriesOfPopCategory from "../StoriesOfPopCategory"
 
-function PopularCategories({ category }){
+function PopularCategories(){
   return (
     <div className="header">
       <Navbar />
