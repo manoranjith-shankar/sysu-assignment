@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ref, onValue, getDatabase } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { useParams } from 'react-router-dom';
+import { FiShare } from "react-icons/fi";
 
 // Initialize Firebase app
 const appSetting = {
@@ -41,9 +42,22 @@ const StoriesOfPopCategory = () => {
     fetchStories();
   }, [category]);
 
+  // Function to handle the share button click event
+  const handleShareButtonClick = () => {
+    // Open a pop-up with the current URL
+    navigator.clipboard.writeText(window.location.href)
+    .then(() => alert('URL copied to clipboard'))
+    .catch((error) => console.error('Error copying URL to clipboard:', error));
+  };
+
   return (
     <div className="container mx-auto mt-8">
-      <h2 className="text-2xl font-semibold mb-4">Stories in category: {category}</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-semibold">Stories in category: {category}</h2>
+        <button className="text-blue-500 mt-5" onClick={handleShareButtonClick}>
+          <FiShare />
+        </button>
+      </div>
       {error ? (
         <p className="text-red-500">{error}</p>
       ) : (
