@@ -1,6 +1,8 @@
 import MyRouts from "./routes/routes"
 import { Toaster } from 'react-hot-toast';
-import { Analytics } from "@vercel/analytics/react"
+import { inject } from '@vercel/analytics';
+ 
+inject();
 
 function App(){
   return (
