@@ -1,5 +1,6 @@
 import MyRouts from "./routes/routes"
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from "@vercel/analytics/react"
 
 function App(){
   return (
@@ -9,6 +10,7 @@ function App(){
         position="bottom-right"
         reverseOrder={false}
       />
+      <Analytics />
     </div>
   )
 }
